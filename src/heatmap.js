@@ -1,5 +1,6 @@
 (function($) {
-
+  var html2canvas = require('html2canvas');
+  
   var ua = navigator.userAgent; // ユーザーエージェントを代入
   var isIE = false;
   var isEdge = false;
@@ -236,41 +237,47 @@
         });
         leafletObj.addControl(new captionWindow());
 
-        /*
         // 保存ボタンを作成
-        if(!isEdge && !isIE && options.save_button){
-          $('<button>').text('画像として保存')
-            .on('click',　function (){
-              var width = options.ref_size.width * 2;
-              var height = options.ref_size.height * 2;
-              var proxy_canvas = $("<canvas>");
-              proxy_canvas.attr('style','display:hidden;')
-                .attr('width', width)
-                .attr('height', height);
-              var ctx = proxy_canvas[0].getContext('2d');
-              var svg_data = new XMLSerializer().serializeToString(map_container[0][0]);
-              var img = "data:image/svg+xml;charset=utf-8;base64," + btoa(unescape(encodeURIComponent(svg_data)));
-              var image = new Image();
-              image.onload = function(){
-                ctx.fillStyle = '#fff';
-                ctx.fillRect(0,0,width,height);
-                ctx.drawImage(image, 0, 0);
-                var downloader = $("<a>").attr('style','display:hidden')
-                  .attr('type','application/octet-stream')
-                  .attr('href', proxy_canvas[0].toDataURL("image/png"))
-                  .text('download')
-                  .attr('download',options.save_filename+'.png')
-                  .appendTo('body');
-                downloader[0].click();
-                proxy_canvas.remove();
-                downloader.remove();
-              }
-              image.src = img;
-            })
-            .attr('class','btn btn-default')
-            .appendTo(selector);
+        if(options.save_button){
+          var saveButton = L.Control.extend({
+            options: {
+              position: 'bottomright'
+            },
+            onAdd: function(map){
+              var buttonContainer = L.DomUtil.create('div', 'leaflet-bar');
+              var saveButtonElement = L.DomUtil.create('a', '', buttonContainer);
+              saveButtonElement.innerHTML = 'Save';
+              saveButtonElement.href = location.href;
+              saveButtonElement.title = "save image";
+              L.DomEvent.addListener(buttonContainer, 'click',　function (){
+                html2canvas(document.getElementById('main_view'), {
+                  onrendered: function(canvas) {
+                    var svg_data = new XMLSerializer().serializeToString($('div.leaflet-overlay-pane svg')[0]);
+                    var img = "data:image/svg+xml;charset=utf-8;base64," + btoa(unescape(encodeURIComponent(svg_data)));
+                    var image = new Image();
+                    image.onload = function(){
+                      var ctx = canvas.getContext('2d');
+                      ctx.drawImage(image, 0, 0);
+                      var imgData = canvas.toDataURL("image/png");
+                      var downloader = $("<a>").attr('style','display:none')
+                        .attr('type','application/octet-stream')
+                        .attr('href', imgData)
+                        .text('download')
+                        .attr('download', options.save_filename+'.png')
+                        .appendTo('body');
+                      downloader[0].click();
+                      downloader.remove();
+                    }
+                    image.src = img;                        
+                  },
+                  background: "#fff"
+                });
+              });
+              return buttonContainer;
+            }
+          });
+          leafletObj.addControl(new saveButton());
         }
-        */
 
         // 全処理が終了したらcallback呼び出し (即updateしたい場合に用いる)
         if(typeof callback == 'function') callback();

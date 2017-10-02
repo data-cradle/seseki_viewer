@@ -18,24 +18,25 @@
   },
   "homepage": "https://github.com/data-cradle/seseki_viewer#readme",
   "dependencies": {
-  },
-  "devDependencies": {
-    "css-loader": "^0.23.1",
     "d3": "^3.5.17",
     "d3-svg-legend": "^1.10.0",
     "encoding-japanese": "^1.0.24",
-    "file-loader": "^0.8.5",
-    "moment": "^2.13.0",
-    "pikaday": "^1.4.0",
-    "zeroclipboard": "^2.2.0",
     "handsontable": "^0.25.0",
+    "html2canvas": "^0.5.0-beta4",
     "jquery": "^2.2.4",
-    "materialize-css": "^0.97.7",
-    "style-loader": "^0.13.1",
-    "topojson": "^1.6.26",
-    "url-loader": "^0.5.7",
-    "webpack": "^1.13.1",
     "leaflet": "^1.0.1",
-    "xmlhttprequest": "^1.8.0"
+    "materialize-css": "^0.97.7",
+    "moment": "^2.13.0",
+    "topojson": "^1.6.26",
+    "pikaday": "^1.4.0",
+    "xmlhttprequest": "^1.8.0",
+    "zeroclipboard": "^2.2.0"
+  },
+  "devDependencies": {
+    "css-loader": "^0.23.1",
+    "file-loader": "^0.8.5",
+    "style-loader": "^0.13.1",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.13.1"
   }
 }
