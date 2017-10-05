@@ -207,7 +207,7 @@
           options.geodata_attribution
         );
         leafletObj.attributionControl.addAttribution(
-          'CC BY NC SA 4.0 <a href="https://github.com/colspan">Miyoshi(@colspan)</a> <a href="https://github.com/colspan/seseki_viewer">Seseki</a>'
+          'CC BY NC 4.0 <a href="https://github.com/colspan">Miyoshi(@colspan)</a> <a href="https://github.com/colspan/seseki_viewer">Seseki</a>'
         );
 
         envs.geoJsonLayer = geoJsonLayer;
