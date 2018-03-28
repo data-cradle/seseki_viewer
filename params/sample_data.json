@@ -1,7 +1,7 @@
 [
   {
     "file":"./sample_data/number_of_unemployed_people.csv",
-    "title":"完全失業者数",
+    "title":"完全失業者数/2010",
     "file_description":"各市区町村における完全失業者数(2010年現在)",
     "column_description":"",
     "right_holder":"e-Stat(国勢調査2010）",
@@ -11,7 +11,7 @@
   },
   {
     "file":"./sample_data/industrial_stat.csv",
-    "title":"工業統計",
+    "title":"工業統計/2013-2014",
     "file_description":"各市区町村における製造業の事業所数，従業員数，製造品出荷額など",
     "column_description":"",
     "right_holder":"経済産業省",
@@ -30,41 +30,71 @@
     "target_prefectures":[33]
   },
   {
-    "file":"./sample_data/population_by_age-all.csv",
-    "title":"年齢階級別人口(総計)",
+    "file":"./sample_data/population_by_age-all2016.csv",
+    "title":"年齢階級別人口(総計)/2016",
     "file_description":"各市区町村における年齢階級別人口",
     "column_description":"",
-    "right_holder":"e-Stat(住民基本台帳人口、人口動態及び世帯数調査2005~2015）",
+    "right_holder":"e-Stat(住民基本台帳人口、人口動態及び世帯数調査2016）",
     "cc":false,
     "url":"https://www.e-stat.go.jp",
     "target_prefectures":[33]
   },
   {
-    "file":"./sample_data/population_by_age-man.csv",
-    "title":"年齢階級別人口(男)",
+    "file":"./sample_data/population_by_age-man2016.csv",
+    "title":"年齢階級別人口(男)/2016",
     "file_description":"各市区町村における男性の年齢階級別人口",
     "column_description":"",
-    "right_holder":"e-Stat(住民基本台帳人口、人口動態及び世帯数調査2005~2015）",
+    "right_holder":"e-Stat(住民基本台帳人口、人口動態及び世帯数調査2016）",
     "cc":false,
     "url":"https://www.e-stat.go.jp",
     "target_prefectures":[33]
   },
   {
-    "file":"./sample_data/population_by_age-woman.csv",
-    "title":"年齢階級別人口(女)",
+    "file":"./sample_data/population_by_age-woman2016.csv",
+    "title":"年齢階級別人口(女)/2016",
     "file_description":"各市区町村における女性の年齢階級別人口",
     "column_description":"",
-    "right_holder":"e-Stat(住民基本台帳人口、人口動態及び世帯数調査2005~2015）",
+    "right_holder":"e-Stat(住民基本台帳人口、人口動態及び世帯数調査2016）",
     "cc":false,
     "url":"https://www.e-stat.go.jp",
     "target_prefectures":[33]
   },
   {
+  "file":"./sample_data/population_by_age-all2017.csv",
+  "title":"年齢階級別人口(総計)/2017",
+  "file_description":"各市区町村における年齢階級別人口",
+  "column_description":"",
+  "right_holder":"e-Stat(住民基本台帳人口、人口動態及び世帯数調査2017）",
+  "cc":false,
+  "url":"https://www.e-stat.go.jp",
+  "target_prefectures":[33]
+},
+{
+  "file":"./sample_data/population_by_age-man2017.csv",
+  "title":"年齢階級別人口(男)/2017",
+  "file_description":"各市区町村における男性の年齢階級別人口",
+  "column_description":"",
+  "right_holder":"e-Stat(住民基本台帳人口、人口動態及び世帯数調査2017）",
+  "cc":false,
+  "url":"https://www.e-stat.go.jp",
+  "target_prefectures":[33]
+},
+{
+  "file":"./sample_data/population_by_age-woman2017.csv",
+  "title":"年齢階級別人口(女)/2017",
+  "file_description":"各市区町村における女性の年齢階級別人口",
+  "column_description":"",
+  "right_holder":"e-Stat(住民基本台帳人口、人口動態及び世帯数調査2017）",
+  "cc":false,
+  "url":"https://www.e-stat.go.jp",
+  "target_prefectures":[33]
+},
+  {
     "file":"./sample_data/number_of_employees.csv",
-    "title":"従業者数",
+    "title":"従業者数/2014",
     "file_description":"各市区町村における各業種の従業者数",
     "column_description":"",
-    "right_holder":"e-Stat(住民基本台帳人口、人口動態及び世帯数調査2005~2015）",
+    "right_holder":"e-Stat(経済センサス-基礎調査　経済センサス-活動調査2014）",
     "cc":false,
     "url":"https://www.e-stat.go.jp",
     "target_prefectures":[33]
@@ -81,7 +111,7 @@
   },
   {
     "file":"./sample_data/population-H28.csv",
-    "title":"住民基本台帳人口・世帯数及び人口動態(2016年)",
+    "title":"住民基本台帳人口・世帯数及び人口動態/2016",
     "file_description":"各市区町村における住民基本台帳人口・世帯数及び人口動態(2016年現在)",
     "column_description":"",
     "right_holder":"e-Stat(経済センサス-基礎調査　経済センサス-活動調査2016）",
@@ -90,18 +120,28 @@
     "target_prefectures":[33]
   },
   {
+  "file":"./sample_data/population-H29.csv",
+  "title":"住民基本台帳人口・世帯数及び人口動態/2017",
+  "file_description":"各市区町村における住民基本台帳人口・世帯数及び人口動態(2017年現在)",
+  "column_description":"",
+  "right_holder":"e-Stat(住民基本台帳人口、人口動態及び世帯数調査2017）",
+  "cc":false,
+  "url":"https://www.e-stat.go.jp/stat-search/files?page=1&layout=datalist&tstat=000001039591&cycle=7&year=20170&month=0&tclass1=000001039601&result_back=1&second2=1",
+  "target_prefectures":[33]
+},
+  {
     "file":"./sample_data/final_education.csv",
-    "title":"最終学歴人口",
+    "title":"最終学歴人口/2010",
     "file_description":"各市区町村における最終学歴人口",
     "column_description":"",
-    "right_holder":"e-Stat(学校基本調査　国勢調査2015）",
+    "right_holder":"e-Stat(学校基本調査　国勢調査2010）",
     "cc":false,
     "url":"https://www.e-stat.go.jp",
     "target_prefectures":[33]
   },
   {
     "file":"./sample_data/elderly_people_home.csv",
-    "title":"老人施設数、定員数、在所者数",
+    "title":"老人施設数、定員数、在所者数/2013-2014",
     "file_description":"各市区町村における老人福祉施設などの施設数，定員数，在所者数",
     "column_description":"",
     "right_holder":"e-Stat(社会福祉施設等調査　介護サービス施設・事業所調査）",
