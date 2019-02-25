@@ -89,6 +89,36 @@
   "url":"https://www.e-stat.go.jp",
   "target_prefectures":[33]
 },
+{
+  "file":"./sample_data/population_by_age-all2018.csv",
+  "title":"年齢階級別人口(総計)/2018",
+  "file_description":"各市区町村における年齢階級別人口",
+  "column_description":"",
+  "right_holder":"e-Stat(住民基本台帳人口、人口動態及び世帯数調査2018）",
+  "cc":false,
+  "url":"https://www.e-stat.go.jp",
+  "target_prefectures":[33]
+},
+{
+  "file":"./sample_data/population_by_age-man2018.csv",
+  "title":"年齢階級別人口(男)/2018",
+  "file_description":"各市区町村における男性の年齢階級別人口",
+  "column_description":"",
+  "right_holder":"e-Stat(住民基本台帳人口、人口動態及び世帯数調査2018）",
+  "cc":false,
+  "url":"https://www.e-stat.go.jp",
+  "target_prefectures":[33]
+},
+{
+  "file":"./sample_data/population_by_age-woman2018.csv",
+  "title":"年齢階級別人口(女)/2018",
+  "file_description":"各市区町村における女性の年齢階級別人口",
+  "column_description":"",
+  "right_holder":"e-Stat(住民基本台帳人口、人口動態及び世帯数調査2018）",
+  "cc":false,
+  "url":"https://www.e-stat.go.jp",
+  "target_prefectures":[33]
+},
   {
     "file":"./sample_data/number_of_employees.csv",
     "title":"従業者数/2014",
@@ -127,6 +157,16 @@
   "right_holder":"e-Stat(住民基本台帳人口、人口動態及び世帯数調査2017）",
   "cc":false,
   "url":"https://www.e-stat.go.jp/stat-search/files?page=1&layout=datalist&tstat=000001039591&cycle=7&year=20170&month=0&tclass1=000001039601&result_back=1&second2=1",
+  "target_prefectures":[33]
+},
+  {
+  "file":"./sample_data/population-H30.csv",
+  "title":"住民基本台帳人口・世帯数及び人口動態/2018",
+  "file_description":"各市区町村における住民基本台帳人口・世帯数及び人口動態(2018年現在)",
+  "column_description":"",
+  "right_holder":"e-Stat(住民基本台帳人口、人口動態及び世帯数調査2018）",
+  "cc":false,
+  "url":"https://www.e-stat.go.jp/stat-search/files?page=1&layout=datalist&toukei=00200241&tstat=000001039591&cycle=7&year=20180&month=0&tclass1=000001039601&result_back=1&second2=1",
   "target_prefectures":[33]
 },
   {
