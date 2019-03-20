@@ -128,11 +128,11 @@ function elementary_school_district_parser(loaded){
     }
     geojson.features.forEach(function(d,i){
       // 市町村名を整理する
-      d.commune_id = d.properties.A32_003; // IDを代入
-      d.name = d.properties.A32_002 + d.properties.A32_003; // ○○市立 + ○○中学校
+      d.commune_id = d.properties.A32_008; // IDを代入
+      d.name = d.properties.A32_007 + d.properties.A32_008; // ○○市立 + ○○中学校
 
       // 除外対象は削除する
-      if(d.properties.A32_003 == '岡山後楽館中学校'){
+      if(d.properties.A32_008 == '岡山後楽館中学校'){
         remove_indices.unshift(i);
         return;
       }
@@ -141,7 +141,7 @@ function elementary_school_district_parser(loaded){
       if(communes.indexOf(d.name) == -1) communes.push(d.name);
 
       // 市立・町立がなくても対応を取れるようにマップを作成する
-      register(d.properties.A32_003, d.commune_id);
+      register(d.properties.A32_008, d.commune_id);
       register(d.name, d.commune_id);
 
     });
