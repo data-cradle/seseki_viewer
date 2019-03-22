@@ -127,12 +127,20 @@ function elementary_school_district_parser(loaded){
       if(id_map[k].indexOf(v) == -1) id_map[k].push(v);
     }
     geojson.features.forEach(function(d,i){
+      var id, name;
+      if (d.properties.A32_002) {
+        id = d.properties.A32_003
+        name = d.properties.A32_002 + d.properties.A32_003
+      } else {
+        id = d.properties.A32_008
+        name = d.properties.A32_007 + d.properties.A32_008
+      }
       // 市町村名を整理する
-      d.commune_id = d.properties.A32_008; // IDを代入
-      d.name = d.properties.A32_007 + d.properties.A32_008; // ○○市立 + ○○中学校
+      d.commune_id = id; // IDを代入
+      d.name = name; // ○○市立 + ○○中学校
 
       // 除外対象は削除する
-      if(d.properties.A32_008 == '岡山後楽館中学校'){
+      if(id == '岡山後楽館中学校'){
         remove_indices.unshift(i);
         return;
       }
@@ -141,14 +149,14 @@ function elementary_school_district_parser(loaded){
       if(communes.indexOf(d.name) == -1) communes.push(d.name);
 
       // 市立・町立がなくても対応を取れるようにマップを作成する
-      register(d.properties.A32_008, d.commune_id);
+      register(id, d.commune_id);
       register(d.name, d.commune_id);
 
     });
     // 対象外の市町村を削除
     remove_indices.forEach(function(d){
       geojson.features.splice(d,1);
-    });        
+    });
     // 割り切り 同じ市町村名があると区別できない
     return {geojson:geojson, communes:communes, id_map:id_map};
 
@@ -161,7 +169,7 @@ function execute_seseki(){
     target_prefectures:target_prefectures,
     geodata_files:geodata_files,
     geodata_parser:elementary_school_district_parser,
-    geodata_attribution : '&copy; <a href="http://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-A32.html">国土数値情報 中学校区データ</a>',
+    geodata_attribution : '&copy; <a href="http://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-A32-v2_0.html">国土数値情報 中学校区データ</a>',
     ref_size : {
       width :  750,
       height:  650
