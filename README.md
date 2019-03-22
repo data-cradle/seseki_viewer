@@ -7,8 +7,8 @@
 ### 地理データベース
 
  - [国土数値情報　行政区域データ](http://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03.html)
- - [国土数値情報　小学校区データ](http://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-A27.html)
- - [国土数値情報　中学校区データ](http://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-A32.html)
+ - [国土数値情報　小学校区データ](http://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-A27-v2_1.html) (一部改変あり)
+ - [国土数値情報　中学校区データ](http://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-A32-v2_0.html) (一部改変あり)
 
 ### 統計データ
 
