@@ -164,7 +164,10 @@ function elementary_school_district_parser(loaded){
 
 function execute_seseki(){
   var  target_prefectures = [33];
-  var geodata_files = ['data/okayama_junior_high_school_district_topo.json'];
+  var geodata_files = [
+    'data/okayama_junior_high_school_district_topo2017.json',
+    'data/okayama_junior_high_school_district_topo20190322.json'  
+  ];
   var gis_def = {
     target_prefectures:target_prefectures,
     geodata_files:geodata_files,

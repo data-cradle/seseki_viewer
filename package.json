@@ -27,8 +27,9 @@
     "leaflet": "^1.0.1",
     "materialize-css": "^0.97.7",
     "moment": "^2.13.0",
-    "topojson": "^1.6.26",
     "pikaday": "^1.4.0",
+    "react-scripts": "^3.0.1",
+    "topojson": "^1.6.26",
     "xmlhttprequest": "^1.8.0",
     "zeroclipboard": "^2.2.0"
   },

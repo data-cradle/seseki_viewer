@@ -3,6 +3,7 @@ var webpack = require("webpack");
 module.exports = {
   entry: {
     seseki: "./src/seseki.js",
+    // heatmap: "./src/heatmap.js",
     common: "./src/common.js"
   },
   output: {

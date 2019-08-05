@@ -3,6 +3,9 @@ var Handsontable = require("handsontable/dist/handsontable.full");
 require("handsontable/dist/handsontable.full.css");
 var Encoding = require("encoding-japanese");
 
+leafletObj = null
+layers = []
+
 require("./heatmap");
 
 seseki = function(gis_def) {
@@ -16,6 +19,7 @@ seseki = function(gis_def) {
   var csv_keys = [];
   var communes;
   var id_map;
+  var current_shape = gis_def.geodata_files[0]
 
   var ua = navigator.userAgent; // ユーザーエージェントを代入
   var isIE = false;
@@ -101,6 +105,7 @@ seseki = function(gis_def) {
         return;
       }
       csv_keys = Object.keys(d[0]);
+
       if (csv_keys.length < 2) {
         console.log("データを解釈できません");
         console.log(d);
@@ -423,6 +428,7 @@ seseki = function(gis_def) {
 
   $("#file_loader").change(function(e) {
     var file = e.target.files[0];
+    console.log(file)
     file.type = "text/plain;charset=UTF-8";
     var reader = new FileReader();
     reader.onloadend = function(evt) {
@@ -439,6 +445,34 @@ seseki = function(gis_def) {
     reader.readAsArrayBuffer(file);
   });
 
+  function renderShape() {
+    // geoJsonLayer = L.geoJson(geodata, {
+    //   style: function(d) {
+    //     return {
+    //       color: "#222",
+    //       weight: 0.3,
+    //       opacity: 0.6,
+    //       fillOpacity: 0.6,
+    //       fillColor: options.map_filler(d)
+    //     };
+    //   },
+    //   onEachFeature: function(d, l) {
+    //     options.eachfeature(geoJsonLayer, d, l);
+    //   }
+    // })
+
+    
+
+    if(leafletObj.hasLayer(elementary2019)) {
+      leafletObj.removeLayer(elementary2019);
+      leafletObj.addLayer(elementary2017);    
+    } else {
+      leafletObj.removeLayer(elementary2017);
+      leafletObj.addLayer(elementary2019);        
+ }
+
+  }
+
   function init_sample() {
     // サンプルデータ一覧更新
     d3.json(gis_def.sample_data, function(d) {
@@ -453,6 +487,10 @@ seseki = function(gis_def) {
         // サンプルファイルの説明を表示
         $("#data-info").css("display", "block");
         var data_info = get_by_filename(filename);
+        var data_shape = null
+        if("shape" in data_info) {
+          data_shape = data_info.shape
+        }
         $("#data-description").html(data_info.file_description);
         $("#data-title").html(data_info.title);
         $("#data-url").html(data_info.right_holder).attr("href", data_info.url);
@@ -476,6 +514,22 @@ seseki = function(gis_def) {
               );
               Materialize.toast("ファイルを読み込みました", 3000);
               csv_viewer(d3.csv.parse(data));
+              // サンプルローダーを初期化
+              $("#map_datatype_selector").find("select").val(csv_keys[1]);
+
+              if(layers){
+                if(data_shape){
+                  if(!leafletObj.hasLayer(layers[data_shape])) {
+                    leafletObj.removeLayer(layers[current_shape]);
+                    leafletObj.addLayer(layers[data_shape]);
+                    current_shape = data_shape
+                  } else {
+                    leafletObj.removeLayer(layers[current_shape]);
+                    leafletObj.addLayer(layers[data_shape]);
+                    current_shape = data_shape
+                  }
+                }
+              }
             }
           });
       }

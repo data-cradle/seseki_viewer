@@ -69,10 +69,13 @@
       _this[0].japaneseMapEnvs = envs;
       var selector = this.selector;
       var geodata;
+      var geodata_list = [];
       var communes = [];
+      var communes_list = [];
       var id_map = {};
 
       // 複数ファイルを非同期読み込み
+
       var promises = [];
       options.geodata_files.forEach(function(d) {
         var p = new Promise(function(resolve, reject) {
@@ -82,6 +85,7 @@
         });
         promises.push(p);
       });
+
       // 読み込み処理
       function load_finished(error, loaded, resolve, reject) {
         if (error) {
@@ -97,9 +101,12 @@
       Promise.all(promises).then(ready);
       function ready(results) {
         results.forEach(function(d) {
-          if (!geodata) geodata = d.geojson;
-          else geodata.features = geodata.features.concat(d.geojson.features);
+          // if (!geodata) {geodata = d.geojson; geodata_list.push(d.geojson);}
+        //  else {geodata.features = geodata.features.concat(d.geojson.features); geodata_list.push(d.geojson);}
+          if (!geodata) {geodata_list.push(d.geojson);}
+          else {geodata_list.push(d.geojson);}
           communes = communes.concat(d.communes);
+          communes_list.push(d.communes);
           Object.keys(d.id_map).forEach(function(x) {
             id_map[x] = d.id_map[x];
           });
@@ -108,6 +115,8 @@
         _this[0].japaneseMapIdMap = id_map;
         display();
       }
+      
+
 
       function default_geodata_parser(loaded) {
         // 国土数値情報　行政区域データ向けのパーサ
@@ -173,9 +182,9 @@
 
         options.geodata = geodata;
         // Leaflet起動
-        var centroid = d3.geo.centroid(geodata);
-        var bounds = d3.geo.bounds(geodata);
-        var leafletObj = L.map("leaflet_map", {
+        var centroid = d3.geo.centroid(geodata_list[0]);
+        var bounds = d3.geo.bounds(geodata_list[0]);
+        leafletObj = L.map("leaflet_map", {
           zoom: 9,
           minZoom: 4,
           maxZoom: 18,
@@ -185,21 +194,40 @@
         var osmAttrib =
           '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors';
         var osmOption = { attribution: osmAttrib, opacity: 0.2 };
+        var osmLayer = L.tileLayer(osmUrl, osmOption)
         L.tileLayer(osmUrl, osmOption).addTo(leafletObj);
-        var geoJsonLayer = L.geoJson(geodata, {
-          style: function(d) {
-            return {
-              color: "#222",
-              weight: 0.3,
-              opacity: 0.6,
-              fillOpacity: 0.6,
-              fillColor: options.map_filler(d)
-            };
-          },
-          onEachFeature: function(d, l) {
-            options.eachfeature(geoJsonLayer, d, l);
-          }
-        }).addTo(leafletObj);
+
+        //ベースマップを定義
+        var baseMap = {
+        "OpenStreetMap":osmLayer
+        };
+
+        var geoJsonLayers = []
+        var geoJsonLayer 
+        
+        for (var i=0; i<Object.keys(geodata_list).length; i++ ) {
+          var geodata_ = geodata_list[i]
+          var name_ = options.geodata_files[i]
+          geoJsonLayer = L.geoJson(geodata_, {
+            style: function(d) {
+              return {
+                color: "#222",
+                weight: 0.3,
+                opacity: 0.6,
+                fillOpacity: 0.6,
+                fillColor: options.map_filler(d)
+              };
+            },
+            onEachFeature: function(d, l) {
+              // options.eachfeature(geodata_, d, l);
+              options.eachfeature(geoJsonLayer, d, l);
+            }
+          })
+          layers[name_] = geoJsonLayer
+          geoJsonLayers.push(geoJsonLayer)
+        }
+        layers[options.geodata_files[0]].addTo(leafletObj)
+
         // 拡大縮小ボタン位置変更
         leafletObj.zoomControl.setPosition("bottomright");
         // 権利情報追記
@@ -211,6 +239,7 @@
         );
 
         envs.geoJsonLayer = geoJsonLayer;
+        envs.geoJsonLayers = geoJsonLayers;
         // 凡例
         var legendContainer;
         var legendWindow = L.Control.extend({
@@ -326,10 +355,13 @@
       var envs = $(this.selector)[0].japaneseMapEnvs;
       options = $.extend(options, input_options);
 
-      envs.geoJsonLayer.getLayers().forEach(function(x) {
-        envs.geoJsonLayer.resetStyle(x);
-        options.eachfeature(envs.geoJsonLayer, x.feature, x);
-      });
+      envs.geoJsonLayers.forEach(function(layer) {
+        layer.getLayers().forEach(function(x) {
+          layer.resetStyle(x);
+          options.eachfeature(layer, x.feature, x);
+        });
+      })
+ 
 
       var caption_elems = envs.captionContainer
         .selectAll("div")
@@ -345,22 +377,25 @@
     modify_geojson_layer: function(criteria, style) {
       var envs = $(this.selector)[0].japaneseMapEnvs;
       var geoJsonLayer = envs.geoJsonLayer;
+      var geoJsonLayers = envs.geoJsonLayers;
       var openedTooltip = false;
-      geoJsonLayer.getLayers().forEach(function(l) {
-        if (l.__modifiedStyle) {
-          geoJsonLayer.resetStyle(l);
-          l.closeTooltip();
-          l.__modifiedStyle = false;
-        }
-        if (criteria(l.feature)) {
-          l.__modifiedStyle = true;
-          l.setStyle(style);
-          if (!openedTooltip) {
-            l.openTooltip();
-            openedTooltip = true;
+      geoJsonLayers.forEach(function(layer) {
+        layer.getLayers().forEach(function(l) {
+          if (l.__modifiedStyle) {
+            layer.resetStyle(l);
+            l.closeTooltip();
+            l.__modifiedStyle = false;
           }
-        }
-      });
+          if (criteria(l.feature)) {
+            l.__modifiedStyle = true;
+            l.setStyle(style);
+            if (!openedTooltip) {
+              l.openTooltip();
+              openedTooltip = true;
+            }
+          }
+        });
+      })
     },
     get_commune_def: function() {
       return {

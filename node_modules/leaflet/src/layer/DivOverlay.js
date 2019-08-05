@@ -1,3 +1,10 @@
+import {Layer} from './Layer';
+import {FeatureGroup} from './FeatureGroup';
+import * as Util from '../core/Util';
+import {toLatLng} from '../geo/LatLng';
+import {toPoint} from '../geometry/Point';
+import * as DomUtil from '../dom/DomUtil';
+
 /*
  * @class DivOverlay
  * @inherits Layer
@@ -6,7 +13,7 @@
  */
 
 // @namespace DivOverlay
-L.DivOverlay = L.Layer.extend({
+export var DivOverlay = Layer.extend({
 
 	// @section
 	// @aka DivOverlay options
@@ -26,7 +33,7 @@ L.DivOverlay = L.Layer.extend({
 	},
 
 	initialize: function (options, source) {
-		L.setOptions(this, options);
+		Util.setOptions(this, options);
 
 		this._source = source;
 	},
@@ -39,7 +46,7 @@ L.DivOverlay = L.Layer.extend({
 		}
 
 		if (map._fadeAnimated) {
-			L.DomUtil.setOpacity(this._container, 0);
+			DomUtil.setOpacity(this._container, 0);
 		}
 
 		clearTimeout(this._removeTimeout);
@@ -47,7 +54,7 @@ L.DivOverlay = L.Layer.extend({
 		this.update();
 
 		if (map._fadeAnimated) {
-			L.DomUtil.setOpacity(this._container, 1);
+			DomUtil.setOpacity(this._container, 1);
 		}
 
 		this.bringToFront();
@@ -55,10 +62,10 @@ L.DivOverlay = L.Layer.extend({
 
 	onRemove: function (map) {
 		if (map._fadeAnimated) {
-			L.DomUtil.setOpacity(this._container, 0);
-			this._removeTimeout = setTimeout(L.bind(L.DomUtil.remove, L.DomUtil, this._container), 200);
+			DomUtil.setOpacity(this._container, 0);
+			this._removeTimeout = setTimeout(Util.bind(DomUtil.remove, undefined, this._container), 200);
 		} else {
-			L.DomUtil.remove(this._container);
+			DomUtil.remove(this._container);
 		}
 	},
 
@@ -72,7 +79,7 @@ L.DivOverlay = L.Layer.extend({
 	// @method setLatLng(latlng: LatLng): this
 	// Sets the geographical point where the popup will open.
 	setLatLng: function (latlng) {
-		this._latlng = L.latLng(latlng);
+		this._latlng = toLatLng(latlng);
 		if (this._map) {
 			this._updatePosition();
 			this._adjustPan();
@@ -138,7 +145,7 @@ L.DivOverlay = L.Layer.extend({
 	// Brings this popup in front of other popups (in the same map pane).
 	bringToFront: function () {
 		if (this._map) {
-			L.DomUtil.toFront(this._container);
+			DomUtil.toFront(this._container);
 		}
 		return this;
 	},
@@ -147,9 +154,41 @@ L.DivOverlay = L.Layer.extend({
 	// Brings this popup to the back of other popups (in the same map pane).
 	bringToBack: function () {
 		if (this._map) {
-			L.DomUtil.toBack(this._container);
+			DomUtil.toBack(this._container);
 		}
 		return this;
+	},
+
+	_prepareOpen: function (parent, layer, latlng) {
+		if (!(layer instanceof Layer)) {
+			latlng = layer;
+			layer = parent;
+		}
+
+		if (layer instanceof FeatureGroup) {
+			for (var id in parent._layers) {
+				layer = parent._layers[id];
+				break;
+			}
+		}
+
+		if (!latlng) {
+			if (layer.getCenter) {
+				latlng = layer.getCenter();
+			} else if (layer.getLatLng) {
+				latlng = layer.getLatLng();
+			} else {
+				throw new Error('Unable to get source layer LatLng.');
+			}
+		}
+
+		// set overlay source to this layer
+		this._source = layer;
+
+		// update the overlay (content, layout, ect...)
+		this.update();
+
+		return latlng;
 	},
 
 	_updateContent: function () {
@@ -173,11 +212,11 @@ L.DivOverlay = L.Layer.extend({
 		if (!this._map) { return; }
 
 		var pos = this._map.latLngToLayerPoint(this._latlng),
-		    offset = L.point(this.options.offset),
+		    offset = toPoint(this.options.offset),
 		    anchor = this._getAnchor();
 
 		if (this._zoomAnimated) {
-			L.DomUtil.setPosition(this._container, pos.add(anchor));
+			DomUtil.setPosition(this._container, pos.add(anchor));
 		} else {
 			offset = offset.add(pos).add(anchor);
 		}
