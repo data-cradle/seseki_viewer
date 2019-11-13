@@ -31,6 +31,16 @@
     "cc":false,
     "url":"http://www.pref.okayama.jp/page/578128.html",
     "target_prefectures":[33]
+  },
+  {
+    "file":"./sample_data/junior_high_junior_high_district2019.csv",
+    "shape":"data/okayama_junior_high_school_district_topo20190322.json",
+    "title":"中学校生徒数・学級数/2019",
+    "file_description":"公立中学校の生徒数・学級数（2018年9月28日現在）</br>※中学校区は国土数値情報　中学校区データの平成28年度（岡山市は平成25年度）を一部改変したものを用いています。（2018年9月28日現在）",
+    "column_description":"",
+    "right_holder":"岡山県庁",
+    "cc":false,
+    "url":"http://www.pref.okayama.jp/page/629056.html",
+    "target_prefectures":[33]
   }
 ]
-
